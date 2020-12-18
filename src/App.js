@@ -1,23 +1,36 @@
-import logo from './logo.svg'
+import { useEffect, useState } from 'react'
+import axios from 'axios'
 import './App.css'
+import { response } from './mock/nearestCity'
+import Loading from './Loading'
 
 function App() {
+  const KEY = process.env.REACT_APP_API_KEY
+  const [loading, setLoading] = useState(false)
+  const [data, setData] = useState()
+
+  useEffect(() => {
+    const getNearData = async () => {
+      try {
+        // const res = await axios.get(
+        //   `https://api.airvisual.com/v2/nearest_city?key=${KEY}`
+        // )
+        const res = response
+        setData(res?.data?.data)
+      } catch (e) {
+        console.error(e)
+      } finally {
+        setLoading(false)
+      }
+    }
+    setLoading(true)
+    getNearData()
+  }, [])
+
   return (
     <div className='App'>
-      <header className='App-header'>
-        <img src={logo} className='App-logo' alt='logo' />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className='App-link'
-          href='https://reactjs.org'
-          target='_blank'
-          rel='noopener noreferrer'
-        >
-          Learn React
-        </a>
-      </header>
+      {loading && <Loading />}
+      {!!data && <p>{JSON.stringify(data)}</p>}
     </div>
   )
 }
