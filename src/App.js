@@ -27,10 +27,15 @@ function App() {
     getNearData()
   }, [])
 
+  const ic = data?.current?.weather?.ic || '01d'
+
   return (
     <div className='App'>
       {loading && <Loading />}
-      {!!data && <p>{JSON.stringify(data)}</p>}
+      <img
+        src={`https://www.airvisual.com/images/${ic}.png`}
+        alt={`icon-${ic}`}
+      />
     </div>
   )
 }
