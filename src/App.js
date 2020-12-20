@@ -33,6 +33,7 @@ function App() {
     <div className='App'>
       {loading && <Loading />}
       <img
+        className='icon'
         src={`https://www.airvisual.com/images/${ic}.png`}
         alt={`icon-${ic}`}
       />

@@ -1,11 +1,11 @@
 import React from 'react'
-import logo from './logo.svg'
+import { loading } from '../assets'
 import './Loading.css'
 
 const Loading = props => {
   return (
     <div className='wrapper'>
-      <img src={logo} className='loading' alt='loading' />
+      <img src={loading} className='loading' alt='loading' />
     </div>
   )
 }
