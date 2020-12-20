@@ -3,6 +3,7 @@ import axios from 'axios'
 import './App.css'
 import { response } from './mock/nearestCity'
 import Loading from './Loading'
+import AqiCard from './AqiCard'
 
 function App() {
   const KEY = process.env.REACT_APP_API_KEY
@@ -27,16 +28,10 @@ function App() {
     getNearData()
   }, [])
 
-  const ic = data?.current?.weather?.ic || '01d'
-
   return (
     <div className='App'>
       {loading && <Loading />}
-      <img
-        className='icon'
-        src={`https://www.airvisual.com/images/${ic}.png`}
-        alt={`icon-${ic}`}
-      />
+      <AqiCard data={data} />
     </div>
   )
 }

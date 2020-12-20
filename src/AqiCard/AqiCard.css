@@ -1,0 +1,59 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  width: 60vw;
+  min-width: 400px;
+  max-width: 650px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.locationBox {
+  background-color: rgb(255, 255, 255);
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  padding: 1em;
+}
+
+.pollutionBox {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  background-color: greenyellow;
+  padding: 1em;
+}
+
+.weatherBox {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  background-color: honeydew;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  padding: 1em;
+}
+
+.temperatureInfo,
+.windInfo,
+.humidityInfo {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.weatherIcon {
+  height: 3em;
+}
+
+.windDirection {
+  height: 1.5em;
+  filter: invert(0.5) sepia(1) saturate(1) hue-rotate(108deg);
+}
+
+.humidityIcon {
+  height: 1.5em;
+  filter: invert(0.5) sepia(1) saturate(5) hue-rotate(157deg);
+}
