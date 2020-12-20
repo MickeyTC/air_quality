@@ -18,39 +18,39 @@ const AqiCard = props => {
 
   return (
     <div className='container'>
-      <div className='locationBox'>
+      <div className='location box column'>
         <div className='city'>{city}</div>
         <div className='state'>{`${state}, ${country}`}</div>
       </div>
-      <div className='pollutionBox'>
-        <img className='faceAqi' src={faceGreen} alt={''} />
-        <div className='aqi'>
-          <div className='aqiValue'>{aqius}</div>
-          <div className='aqiTitle'>{'US AQI'}</div>
+      <div className='pollution box'>
+        <img className='face-aqi info' src={faceGreen} alt={''} />
+        <div className='aqi info column'>
+          <div className='aqi-value'>{aqius}</div>
+          <div className='aqi-title'>{'US AQI'}</div>
         </div>
-        <div className='condition'>{'Good'}</div>
+        <div className='condition info'>{'Good'}</div>
       </div>
-      <div className='weatherBox'>
-        <div className='temperatureInfo'>
+      <div className='weather box'>
+        <div className='temperature info'>
           <img
-            className='weatherIcon'
+            className='weather-icon'
             src={`https://www.airvisual.com/images/${ic}.png`}
             alt={`icon-${ic}`}
           />
           <div className='temperature'>{`${tp}°C`}</div>
         </div>
-        <div className='windInfo'>
+        <div className='wind info'>
           <img
-            className='windDirection'
+            className='wind-direction'
             style={{ transform: `rotate(${wd}deg)` }}
             src={windDirection}
             alt='wind-direction'
           />
-          <div className='windSpeed'>{`${(ws * 3.6).toFixed(1)} km/h`}</div>
+          <div className='wind-speed'>{`${(ws * 3.6).toFixed(1)} km/h`}</div>
         </div>
-        <div className='humidityInfo'>
-          <img className='humidityIcon' src={humidity} alt='humidity-icon' />
-          <div className='humidityValue'>{`${hu}%`}</div>
+        <div className='humidity info'>
+          <img className='humidity-icon' src={humidity} alt='humidity-icon' />
+          <div className='humidity-value'>{`${hu}%`}</div>
         </div>
       </div>
     </div>

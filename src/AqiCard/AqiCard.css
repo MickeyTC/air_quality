@@ -9,51 +9,50 @@
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-.locationBox {
+.box {
+  display: flex;
+  flex-direction: row;
+  padding: 1em;
+}
+
+.column {
+  flex-direction: column;
+}
+
+.location {
   background-color: rgb(255, 255, 255);
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
-  padding: 1em;
 }
 
-.pollutionBox {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
+.pollution {
   background-color: greenyellow;
-  padding: 1em;
 }
 
-.weatherBox {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
+.weather {
   background-color: honeydew;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
-  padding: 1em;
 }
 
-.temperatureInfo,
-.windInfo,
-.humidityInfo {
+.info {
   display: flex;
   flex-direction: row;
+  justify-content: center;
   align-items: center;
+  flex: 1 1 0;
 }
 
-.weatherIcon {
+.weather-icon {
   height: 3em;
 }
 
-.windDirection {
+.wind-direction {
   height: 1.5em;
   filter: invert(0.5) sepia(1) saturate(1) hue-rotate(108deg);
 }
 
-.humidityIcon {
+.humidity-icon {
   height: 1.5em;
   filter: invert(0.5) sepia(1) saturate(5) hue-rotate(157deg);
 }
