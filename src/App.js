@@ -1,46 +1,42 @@
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import axios from 'axios'
-import { response } from './mock/nearestCity'
+import createPersistedState from 'use-persisted-state'
 import Loading from './Loading'
-import AqiCard from './AqiCard'
+import LocationList from './LocationList'
+import { getNearData, refreshData } from './utils'
 
+const useLocationsState = createPersistedState('locations')
 const Container = styled.div`
   background-color: #282c34;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  height: 100vh;
+  height: max-content;
+  min-height: 100vh;
 `
 
 const App = () => {
-  const KEY = process.env.REACT_APP_API_KEY
   const [loading, setLoading] = useState(false)
-  const [data, setData] = useState()
+  const [locations, setLocations] = useLocationsState([])
 
   useEffect(() => {
-    const getNearData = async () => {
-      try {
-        // const res = await axios.get(
-        //   `https://api.airvisual.com/v2/nearest_city?key=${KEY}`
-        // )
-        const res = response
-        setData(res?.data?.data)
-      } catch (e) {
-        console.error(e)
-      } finally {
-        setLoading(false)
+    ;(async () => {
+      setLoading(true)
+      if (!locations.length) {
+        const data = await getNearData()
+        if (data) setLocations([data])
+      } else {
+        setLocations(await refreshData(locations))
       }
-    }
-    setLoading(true)
-    getNearData()
+      setLoading(false)
+    })()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
     <Container>
       {loading && <Loading />}
-      <AqiCard data={data} />
+      <LocationList locations={locations} />
     </Container>
   )
 }

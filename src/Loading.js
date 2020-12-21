@@ -1,15 +1,14 @@
-import React from 'react'
 import styled, { keyframes } from 'styled-components'
 import { loading } from './assets'
 
 const Wrapper = styled.div`
-  position: absolute;
+  position: fixed;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   background-color: #00000066;
   z-index: 100;
 `
