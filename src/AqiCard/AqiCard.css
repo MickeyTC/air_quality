@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   text-align: center;
+  color: #333333;
   width: 60vw;
   min-width: 400px;
   max-width: 650px;
@@ -11,7 +12,6 @@
 
 .box {
   display: flex;
-  flex-direction: row;
   padding: 1em;
 }
 
@@ -20,13 +20,40 @@
 }
 
 .location {
-  background-color: rgb(255, 255, 255);
+  background-color: rgb(255, 255, 245);
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
 }
 
-.pollution {
-  background-color: greenyellow;
+.city {
+  font-size: 1.5em;
+  font-weight: 700;
+}
+
+.state {
+  font-weight: 500;
+  color: #666666;
+  margin-top: 0.2em;
+}
+
+.face-aqi {
+  height: 4em;
+  align-self: center;
+}
+
+.aqi-value {
+  font-size: 2.5em;
+  font-weight: 400;
+}
+
+.aqi-title {
+  font-size: 0.8em;
+  font-weight: 500;
+}
+
+.condition {
+  font-weight: 600;
+  font-size: 1.2em;
 }
 
 .weather {
@@ -37,7 +64,6 @@
 
 .info {
   display: flex;
-  flex-direction: row;
   justify-content: center;
   align-items: center;
   flex: 1 1 0;
@@ -55,4 +81,42 @@
 .humidity-icon {
   height: 1.5em;
   filter: invert(0.5) sepia(1) saturate(5) hue-rotate(157deg);
+}
+
+.temperature-value,
+.wind-speed,
+.humidity-value {
+  margin-left: 0.5em;
+  font-weight: 500;
+  font-size: 1.1em;
+}
+
+.aqi-green {
+  color: #607631;
+  background-color: #a8e05f;
+}
+
+.aqi-yellow {
+  color: #8c6c1d;
+  background-color: #ffdf58;
+}
+
+.aqi-orange {
+  color: #974a20;
+  background: #ff9b57;
+}
+
+.aqi-red {
+  color: #942431;
+  background: #fe6a69;
+}
+
+.aqi-purple {
+  color: #543b63;
+  background: #a97abc;
+}
+
+.aqi-maroon {
+  color: #573344;
+  background: #a87383;
 }
