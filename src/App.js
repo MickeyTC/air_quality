@@ -1,11 +1,20 @@
 import { useEffect, useState } from 'react'
+import styled from 'styled-components'
 import axios from 'axios'
-import './App.css'
 import { response } from './mock/nearestCity'
 import Loading from './Loading'
 import AqiCard from './AqiCard'
 
-function App() {
+const Container = styled.div`
+  background-color: #282c34;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+`
+
+const App = () => {
   const KEY = process.env.REACT_APP_API_KEY
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState()
@@ -29,10 +38,10 @@ function App() {
   }, [])
 
   return (
-    <div className='App'>
+    <Container>
       {loading && <Loading />}
       <AqiCard data={data} />
-    </div>
+    </Container>
   )
 }
 
