@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
+import { DragDropContext } from 'react-beautiful-dnd'
 import styled from 'styled-components'
 import createPersistedState from 'use-persisted-state'
 import Loading from './Loading'
@@ -24,7 +25,26 @@ const App = () => {
       setLoading(true)
       if (!locations.length) {
         const data = await getNearData()
-        if (data) setLocations([data])
+        if (data)
+          setLocations([
+            data,
+            {
+              ...data,
+              city: data?.city + ' 2',
+            },
+            {
+              ...data,
+              city: data?.city + ' 3',
+            },
+            {
+              ...data,
+              city: data?.city + ' 4',
+            },
+            {
+              ...data,
+              city: data?.city + ' 5',
+            },
+          ])
       } else {
         setLocations(await refreshData(locations))
       }
@@ -33,10 +53,28 @@ const App = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  const onDragEnd = useCallback(
+    result => {
+      const { source, destination } = result
+      const sIndex = source?.index
+      const dIndex = destination?.index
+      if (!destination || sIndex === dIndex) return
+      setLocations(locations => {
+        const newLocations = [...locations]
+        const [sItem] = newLocations.splice(sIndex, 1)
+        newLocations.splice(dIndex, 0, sItem)
+        return newLocations
+      })
+    },
+    [setLocations]
+  )
+
   return (
     <Container>
       {loading && <Loading />}
-      <LocationList locations={locations} />
+      <DragDropContext onDragEnd={onDragEnd}>
+        <LocationList locations={locations} listId='locations' />
+      </DragDropContext>
     </Container>
   )
 }
