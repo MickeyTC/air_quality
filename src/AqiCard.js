@@ -141,13 +141,11 @@ const WeatherIcon = styled.img`
 
 const WindDirection = styled.img`
   height: 1.5em;
-  filter: invert(0.5) sepia(1) saturate(1) hue-rotate(108deg);
   transform: rotate(${({ direction }) => direction}deg);
 `
 
 const HumidityIcon = styled.img`
   height: 1.5em;
-  filter: invert(0.5) sepia(1) saturate(5) hue-rotate(157deg);
 `
 
 const AqiCard = props => {
