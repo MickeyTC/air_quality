@@ -25,26 +25,7 @@ const App = () => {
       setLoading(true)
       if (!locations.length) {
         const data = await getNearData()
-        if (data)
-          setLocations([
-            data,
-            {
-              ...data,
-              city: data?.city + ' 2',
-            },
-            {
-              ...data,
-              city: data?.city + ' 3',
-            },
-            {
-              ...data,
-              city: data?.city + ' 4',
-            },
-            {
-              ...data,
-              city: data?.city + ' 5',
-            },
-          ])
+        if (data) setLocations([data])
       } else {
         setLocations(await refreshData(locations))
       }

@@ -3,6 +3,12 @@ import { response } from './mock/nearestCity'
 
 const KEY = process.env.REACT_APP_API_KEY
 
+const joinStrings = (separator = ' ') => (...strings) =>
+  strings
+    .filter(Boolean)
+    .map(s => s.trim())
+    .join(separator)
+
 const getNearData = async () => {
   try {
     // const res = await axios.get(
@@ -36,11 +42,5 @@ const refreshData = async locations => {
     console.error(e)
   }
 }
-
-const joinStrings = (separator = ' ') => (...strings) =>
-  strings
-    .filter(Boolean)
-    .map(s => s.trim())
-    .join(separator)
 
 export { getNearData, refreshData, joinStrings }
