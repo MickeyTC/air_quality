@@ -37,4 +37,10 @@ const refreshData = async locations => {
   }
 }
 
-export { getNearData, refreshData }
+const joinStrings = (separator = ' ') => (...strings) =>
+  strings
+    .filter(Boolean)
+    .map(s => s.trim())
+    .join(separator)
+
+export { getNearData, refreshData, joinStrings }

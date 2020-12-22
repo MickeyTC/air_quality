@@ -10,6 +10,7 @@ import {
   humidity,
   windDirection,
 } from './assets'
+import { joinStrings } from './utils'
 
 const getAqiStyle = aqi => {
   if (aqi <= 50) {
@@ -42,7 +43,7 @@ const getAqiStyle = aqi => {
       condition: 'Very unhealthy',
       styleProps: { color: '#543b63', background: '#a97abc' },
     }
-  } else {
+  } else if (aqi > 300) {
     return {
       face: faceMaroon,
       condition: 'Hazardous',
@@ -95,7 +96,7 @@ const StateInfo = styled(Info)`
 
 const PollutionBox = styled(Box)(({ color, background }) => ({
   color,
-  background,
+  backgroundColor: background || 'rgb(255, 255, 245)',
 }))
 
 const FaceAqi = styled.img`
@@ -155,51 +156,63 @@ const AqiCard = props => {
       state = '',
       country = '',
       current: {
-        weather: { tp = 30, hu = 60, ws = 10, wd = 90, ic = '01d' } = {},
-        pollution: { aqius = 0, aqicn = 0 } = {},
+        weather: { tp, hu, ws, wd, ic } = {},
+        pollution: { aqius, aqicn } = {},
       } = {},
     } = {},
     useUSAqi = true,
   } = props
 
   const aqi = useUSAqi ? aqius : aqicn
-  const { face, condition, styleProps } = getAqiStyle(aqi)
+  const { face, condition, styleProps } = getAqiStyle(aqi) || {}
 
   return (
     <Container>
       <LocationBox>
         <CityInfo>{city}</CityInfo>
-        <StateInfo>{`${state}, ${country}`}</StateInfo>
+        <StateInfo>{joinStrings(', ')(state, country)}</StateInfo>
       </LocationBox>
       <PollutionBox {...styleProps}>
-        <Info>
-          <FaceAqi src={face} alt='face' />
-        </Info>
+        <Info>{!!face && <FaceAqi src={face} alt='face' />}</Info>
         <AqiInfo>
-          <AqiValue>{aqi}</AqiValue>
-          <AqiTitle>{useUSAqi ? 'US AQI' : 'CN AQI'}</AqiTitle>
+          {aqi !== undefined && (
+            <>
+              <AqiValue>{aqi}</AqiValue>
+              <AqiTitle>{useUSAqi ? 'US AQI' : 'CN AQI'}</AqiTitle>
+            </>
+          )}
         </AqiInfo>
         <ConditionInfo>{condition}</ConditionInfo>
       </PollutionBox>
       <WeatherBox>
         <Info>
-          <WeatherIcon
-            src={`https://www.airvisual.com/images/${ic}.png`}
-            alt={`icon-${ic}`}
-          />
-          <WeatherValue>{`${tp}°C`}</WeatherValue>
+          {!!ic && (
+            <WeatherIcon
+              src={`https://www.airvisual.com/images/${ic}.png`}
+              alt={`icon-${ic}`}
+            />
+          )}
+          {tp !== undefined && <WeatherValue>{`${tp}°C`}</WeatherValue>}
         </Info>
         <Info>
-          <WindDirection
-            direction={wd}
-            src={windDirection}
-            alt='wind-direction'
-          />
-          <WeatherValue>{`${(ws * 3.6).toFixed(1)} km/h`}</WeatherValue>
+          {wd !== undefined && (
+            <WindDirection
+              direction={wd}
+              src={windDirection}
+              alt='wind-direction'
+            />
+          )}
+          {ws !== undefined && (
+            <WeatherValue>{`${(ws * 3.6).toFixed(1)} km/h`}</WeatherValue>
+          )}
         </Info>
         <Info>
-          <HumidityIcon src={humidity} alt='humidity-icon' />
-          <WeatherValue>{`${hu}%`}</WeatherValue>
+          {hu !== undefined && (
+            <>
+              <HumidityIcon src={humidity} alt='humidity-icon' />
+              <WeatherValue>{`${hu}%`}</WeatherValue>
+            </>
+          )}
         </Info>
       </WeatherBox>
     </Container>
