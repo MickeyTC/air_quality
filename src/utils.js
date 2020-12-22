@@ -9,6 +9,9 @@ const joinStrings = (separator = ' ') => (...strings) =>
     .map(s => s.trim())
     .join(separator)
 
+const convertToSelectOptions = (values = []) =>
+  values?.map(value => ({ value, label: value }))
+
 const getNearData = async () => {
   try {
     // const res = await axios.get(
@@ -28,7 +31,7 @@ const refreshData = async locations => {
     // const res = await Promise.allSettled(
     //   locations.map(({ city, state, country }) =>
     //     axios.get(
-    //       `http://api.airvisual.com/v2/city?city=${city}&state=${state}&country=${country}&key=${KEY}`
+    //       `https://api.airvisual.com/v2/city?city=${city}&state=${state}&country=${country}&key=${KEY}`
     //     )
     //   )
     // )
@@ -43,4 +46,48 @@ const refreshData = async locations => {
   }
 }
 
-export { getNearData, refreshData, joinStrings }
+const getCountries = async () => {
+  console.log('getCountries')
+  try {
+    const res = await axios.get(
+      `https://api.airvisual.com/v2/countries?key=${KEY}`
+    )
+    return res?.data?.data?.map(({ country }) => country)
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+const getStates = async country => {
+  console.log('getStates', country)
+  try {
+    const res = await axios.get(
+      `https://api.airvisual.com/v2/states?country=${country}&key=${KEY}`
+    )
+    return res?.data?.data?.map(({ state }) => state)
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+const getCities = async (state, country) => {
+  console.log('getCities', state, country)
+  try {
+    const res = await axios.get(
+      `https://api.airvisual.com/v2/cities?state=${state}&country=${country}&key=${KEY}`
+    )
+    return res?.data?.data?.map(({ city }) => city)
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+export {
+  getNearData,
+  refreshData,
+  joinStrings,
+  convertToSelectOptions,
+  getCountries,
+  getStates,
+  getCities,
+}

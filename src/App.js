@@ -3,6 +3,7 @@ import { DragDropContext } from 'react-beautiful-dnd'
 import styled from 'styled-components'
 import createPersistedState from 'use-persisted-state'
 import Loading from './Loading'
+import LocationForm from './LocationForm'
 import LocationList from './LocationList'
 import { getNearData, refreshData } from './utils'
 
@@ -53,6 +54,7 @@ const App = () => {
   return (
     <Container>
       {loading && <Loading />}
+      <LocationForm initialLocation={locations[0]} />
       <DragDropContext onDragEnd={onDragEnd}>
         <LocationList locations={locations} listId='locations' />
       </DragDropContext>
