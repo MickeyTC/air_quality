@@ -8,6 +8,7 @@ import {
   getCities,
   getCountries,
   getStates,
+  joinStrings,
 } from './utils'
 
 const useCountriesState = createPersistedState('countries')
@@ -40,37 +41,49 @@ const Label = styled.div`
 
 const LocationSelect = styled(Select)``
 
-const Button = styled.button`
+const ErrorText = styled.div`
+  text-align: center;
+  color: red;
+  margin: 1em 0 1em 0;
+`
+
+const Button = styled.div`
+  text-align: center;
   width: 5em;
-  color: #ffffff;
-  background-color: #1976d2;
   padding: 5px 15px;
   font-weight: 500;
   line-height: 1.75;
   border-radius: 4px;
   outline: 0;
   text-transform: uppercase;
-  margin: 1.5em 0.5em 0.5em 0.5em;
-  cursor: pointer;
-  box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2),
-    0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
   transition: ease background-color 250ms;
   border: 0;
-  &:hover {
-    background-color: rgb(17, 82, 147);
-    box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2),
-      0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
-  }
-  &:active {
-    box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2),
-      0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12);
-  }
-  &:disabled {
-    cursor: default;
-    color: rgba(0, 0, 0, 0.26);
-    box-shadow: none;
-    background-color: rgba(0, 0, 0, 0.12);
-  }
+  ${({ isShowError }) =>
+    isShowError ? 'margin: 0.5em;' : 'margin: 1.5em 0.5em 0.5em 0.5em;'}
+  ${({ disabled }) =>
+    disabled
+      ? `
+      cursor: default;
+      color: rgba(0, 0, 0, 0.26);
+      box-shadow: none;
+      background-color: rgba(0, 0, 0, 0.12);
+    `
+      : `
+    cursor: pointer;
+    color: #ffffff;
+    box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2),
+      0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+    background-color: #1976d2;
+    &:hover {
+      background-color: rgb(17, 82, 147);
+      box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2),
+        0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+    }
+    &:active {
+      box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2),
+        0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12);
+    }
+  `}
 `
 
 const LocationForm = props => {
@@ -88,6 +101,7 @@ const LocationForm = props => {
   const [loadingCountries, setLoadingCountries] = useState(false)
   const [loadingStates, setLoadingStates] = useState(false)
   const [loadingCities, setLoadingCities] = useState(false)
+  const [isShowError, setIsShowError] = useState(false)
 
   useEffect(() => {
     ;(async () => {
@@ -134,26 +148,32 @@ const LocationForm = props => {
 
   const onSelectCountry = useCallback(
     option => {
+      if (option.value === selectedCountry) return
       setSelectedCountry(option.value)
       setSelectedState('')
       setSelectedCity('')
+      setIsShowError(false)
     },
-    [setSelectedCountry, setSelectedState, setSelectedCity]
+    [selectedCountry, setSelectedCountry, setSelectedState, setSelectedCity]
   )
 
   const onSelectState = useCallback(
     option => {
+      if (option.value === selectedState) return
       setSelectedState(option.value)
       setSelectedCity('')
+      setIsShowError(false)
     },
-    [setSelectedState, setSelectedCity]
+    [selectedState, setSelectedState, setSelectedCity]
   )
 
   const onSelectCity = useCallback(
     option => {
+      if (option.value === selectedCity) return
       setSelectedCity(option.value)
+      setIsShowError(false)
     },
-    [setSelectedCity]
+    [selectedCity, setSelectedCity]
   )
 
   const countriesOptions = useMemo(() => convertToSelectOptions(countries), [
@@ -168,12 +188,22 @@ const LocationForm = props => {
     [cities, selectedCountry, selectedState]
   )
 
+  const onDuplicate = () => {
+    setIsShowError(true)
+  }
+
   const onClickAdd = () =>
-    onAdd({
-      country: selectedCountry,
-      state: selectedState,
-      city: selectedCity,
-    })
+    onAdd(
+      {
+        country: selectedCountry,
+        state: selectedState,
+        city: selectedCity,
+      },
+      onDuplicate
+    )
+
+  const isDisabledButton =
+    !selectedCountry || !selectedState || !selectedCity || isShowError
 
   return (
     <Container>
@@ -220,9 +250,17 @@ const LocationForm = props => {
           isLoading={loadingCities}
         />
       </Wrapper>
+      {isShowError && (
+        <ErrorText>{`${joinStrings(', ')(
+          selectedCity,
+          selectedState,
+          selectedCountry
+        )} is already shown.`}</ErrorText>
+      )}
       <Button
-        onClick={onClickAdd}
-        disabled={!selectedCountry || !selectedState || !selectedCity}
+        onClick={!isDisabledButton ? onClickAdd : () => {}}
+        disabled={isDisabledButton}
+        isShowError={isShowError}
       >
         {'ADD'}
       </Button>

@@ -7,6 +7,7 @@ import Loading from './Loading'
 import LocationForm from './LocationForm'
 import LocationList from './LocationList'
 import { getAqiCity, getNearData, refreshData } from './utils'
+import { addIcon } from './assets'
 
 const useLocationsState = createPersistedState('locations')
 
@@ -56,6 +57,8 @@ const StyledModal = styled(ReactModalAdapter)`
   }
 `
 
+const AddButton = styled.div``
+
 const App = () => {
   const [locations, setLocations] = useLocationsState([])
   const [loading, setLoading] = useState(false)
@@ -99,11 +102,25 @@ const App = () => {
     setIsShowForm(false)
   }
 
-  const onAddLocation = async ({ country, state, city }) => {
+  const onAddLocation = async (
+    { country, state, city },
+    onDuplicate = () => {}
+  ) => {
+    if (
+      locations.find(
+        location =>
+          location.country === country &&
+          location.state === state &&
+          location.city === city
+      )
+    ) {
+      onDuplicate()
+      return
+    }
     setIsShowForm(false)
     setLoading(true)
     const location = await getAqiCity({ country, state, city })
-    setLocations(locations => [...locations, location])
+    if (location) setLocations(locations => [...locations, location])
     setLoading(false)
   }
 
@@ -121,7 +138,9 @@ const App = () => {
       >
         <LocationForm initialLocation={locations[0]} onAdd={onAddLocation} />
       </StyledModal>
-      <button onClick={onClickAdd}>ADD</button>
+      <AddButton onClick={onClickAdd}>
+        <img src={addIcon} alt='add' />
+      </AddButton>
     </Container>
   )
 }

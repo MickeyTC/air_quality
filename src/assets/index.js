@@ -19,6 +19,8 @@ import weather10n from './10n.png'
 import weather11d from './11d.png'
 import weather13d from './13d.png'
 import weather50d from './50d.png'
+import addIcon from './add.svg'
+import deleteIcon from './delete.svg'
 
 const getWeatherIcon = icon => {
   switch (icon) {
@@ -62,4 +64,6 @@ export {
   facePurple,
   faceMaroon,
   getWeatherIcon,
+  addIcon,
+  deleteIcon,
 }
