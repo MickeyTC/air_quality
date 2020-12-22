@@ -115,11 +115,7 @@ const App = () => {
         ariaHideApp={false}
         closeTimeoutMS={200}
       >
-        <LocationForm
-          initialLocation={locations[0]}
-          onAdd={onAddLocation}
-          onCLose={hideForm}
-        />
+        <LocationForm initialLocation={locations[0]} onAdd={onAddLocation} />
       </StyledModal>
       <button onClick={onClickAdd}>ADD</button>
     </Container>

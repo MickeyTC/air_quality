@@ -74,15 +74,7 @@ const Button = styled.button`
 `
 
 const LocationForm = props => {
-  const {
-    initialLocation = {},
-    onAdd = () => {
-      console.log('add')
-    },
-    onClose = () => {
-      console.log('close')
-    },
-  } = props
+  const { initialLocation = {}, onAdd = () => {} } = props
   const [countries, setCountries] = useCountriesState()
   const [states, setStates] = useStatesState()
   const [cities, setCities] = useCitiesState()
@@ -240,7 +232,6 @@ LocationForm.propTypes = {
     country: PropTypes.string,
   }),
   onAdd: PropTypes.func,
-  onClose: PropTypes.func,
 }
 
 export default LocationForm
