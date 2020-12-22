@@ -47,7 +47,7 @@ const refreshData = async locations => {
 }
 
 const getCountries = async () => {
-  console.log('getCountries')
+  // console.log('getCountries')
   try {
     const res = await axios.get(
       `https://api.airvisual.com/v2/countries?key=${KEY}`
@@ -59,7 +59,7 @@ const getCountries = async () => {
 }
 
 const getStates = async country => {
-  console.log('getStates', country)
+  // console.log('getStates', country)
   try {
     const res = await axios.get(
       `https://api.airvisual.com/v2/states?country=${country}&key=${KEY}`
@@ -71,7 +71,7 @@ const getStates = async country => {
 }
 
 const getCities = async (state, country) => {
-  console.log('getCities', state, country)
+  // console.log('getCities', state, country)
   try {
     const res = await axios.get(
       `https://api.airvisual.com/v2/cities?state=${state}&country=${country}&key=${KEY}`
