@@ -2,12 +2,14 @@ import { useCallback, useEffect, useState } from 'react'
 import { DragDropContext } from 'react-beautiful-dnd'
 import styled from 'styled-components'
 import createPersistedState from 'use-persisted-state'
+import ReactModal from 'react-modal'
 import Loading from './Loading'
 import LocationForm from './LocationForm'
 import LocationList from './LocationList'
 import { getNearData, refreshData } from './utils'
 
 const useLocationsState = createPersistedState('locations')
+
 const Container = styled.div`
   background-color: #282c34;
   display: flex;
@@ -16,10 +18,48 @@ const Container = styled.div`
   height: max-content;
   min-height: 100vh;
 `
+const ReactModalAdapter = ({ className, ...props }) => {
+  const contentClassName = `${className}__content`
+  const overlayClassName = `${className}__overlay`
+  return (
+    <ReactModal
+      portalClassName={className}
+      className={contentClassName}
+      overlayClassName={overlayClassName}
+      {...props}
+    />
+  )
+}
+
+const StyledModal = styled(ReactModalAdapter)`
+  &__overlay {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    background-color: #00000066;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 200ms ease-in-out;
+    &.ReactModal__Overlay--after-open {
+      opacity: 1;
+    }
+    &.ReactModal__Overlay--before-close {
+      opacity: 0;
+    }
+  }
+  &__content {
+    outline: none;
+  }
+`
 
 const App = () => {
-  const [loading, setLoading] = useState(false)
   const [locations, setLocations] = useLocationsState([])
+  const [loading, setLoading] = useState(false)
+  const [isShowForm, setIsShowForm] = useState(false)
 
   useEffect(() => {
     ;(async () => {
@@ -51,13 +91,37 @@ const App = () => {
     [setLocations]
   )
 
+  const onClickAdd = () => {
+    setIsShowForm(true)
+  }
+
+  const hideForm = () => {
+    setIsShowForm(false)
+  }
+
+  const onAddLocation = () => {
+    setIsShowForm(false)
+  }
+
   return (
     <Container>
       {loading && <Loading />}
-      <LocationForm initialLocation={locations[0]} />
       <DragDropContext onDragEnd={onDragEnd}>
         <LocationList locations={locations} listId='locations' />
       </DragDropContext>
+      <StyledModal
+        isOpen={isShowForm}
+        onRequestClose={hideForm}
+        ariaHideApp={false}
+        closeTimeoutMS={200}
+      >
+        <LocationForm
+          initialLocation={locations[0]}
+          onAdd={onAddLocation}
+          onCLose={hideForm}
+        />
+      </StyledModal>
+      <button onClick={onClickAdd}>ADD</button>
     </Container>
   )
 }
