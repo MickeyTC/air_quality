@@ -168,7 +168,12 @@ const LocationForm = props => {
     [cities, selectedCountry, selectedState]
   )
 
-  const onClickAdd = () => onAdd(selectedCountry, selectedState, selectedCity)
+  const onClickAdd = () =>
+    onAdd({
+      country: selectedCountry,
+      state: selectedState,
+      city: selectedCity,
+    })
 
   return (
     <Container>

@@ -6,7 +6,7 @@ import ReactModal from 'react-modal'
 import Loading from './Loading'
 import LocationForm from './LocationForm'
 import LocationList from './LocationList'
-import { getNearData, refreshData } from './utils'
+import { getAqiCity, getNearData, refreshData } from './utils'
 
 const useLocationsState = createPersistedState('locations')
 
@@ -99,8 +99,12 @@ const App = () => {
     setIsShowForm(false)
   }
 
-  const onAddLocation = () => {
+  const onAddLocation = async ({ country, state, city }) => {
     setIsShowForm(false)
+    setLoading(true)
+    const location = await getAqiCity({ country, state, city })
+    setLocations(locations => [...locations, location])
+    setLoading(false)
   }
 
   return (
