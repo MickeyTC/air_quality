@@ -18,6 +18,7 @@ const Container = styled.div`
   align-items: center;
   height: max-content;
   min-height: 100vh;
+  padding: 1.5em;
 `
 const ReactModalAdapter = ({ className, ...props }) => {
   const contentClassName = `${className}__content`
@@ -57,7 +58,47 @@ const StyledModal = styled(ReactModalAdapter)`
   }
 `
 
-const AddButton = styled.div``
+const AddButton = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 5em;
+  height: 5em;
+  border-radius: 2.5em;
+  outline: 0;
+  transition: ease background-color 250ms;
+  border: 0;
+  margin: 1.5em;
+  ${({ disabled }) =>
+    disabled
+      ? `
+      cursor: default;
+      box-shadow: none;
+      background-color: rgba(0, 0, 0, 0.12);
+    `
+      : `
+    cursor: pointer;
+    box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2),
+      0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+    background-color: #29b1a8;
+    &:hover {
+      background-color: #1a6f69;
+      box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2),
+        0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+    }
+    &:active {
+      background-color: #145652;
+      box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2),
+        0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12);
+    }
+  `}
+`
+
+const AddIcon = styled.img`
+  width: 4em;
+  height: 4em;
+  opacity: 0.8;
+`
 
 const App = () => {
   const [locations, setLocations] = useLocationsState([])
@@ -139,7 +180,7 @@ const App = () => {
         <LocationForm initialLocation={locations[0]} onAdd={onAddLocation} />
       </StyledModal>
       <AddButton onClick={onClickAdd}>
-        <img src={addIcon} alt='add' />
+        <AddIcon src={addIcon} alt='add' />
       </AddButton>
     </Container>
   )
