@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import AqiCard from './AqiCard'
 
 const Wrapper = styled.div`
-  margin: 1.5em;
+  padding: 0.5em;
 `
 
 const LocationList = props => {
