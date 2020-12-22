@@ -20,8 +20,10 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 40vmin;
-  min-width: 300px;
+  width: 40vw;
+  min-width: 250px;
+  max-width: 500px;
+  z-index: 51;
 `
 
 const Wrapper = styled.div`
@@ -72,7 +74,15 @@ const Button = styled.button`
 `
 
 const LocationForm = props => {
-  const { initialLocation = {}, onAdd = () => {} } = props
+  const {
+    initialLocation = {},
+    onAdd = () => {
+      console.log('add')
+    },
+    onClose = () => {
+      console.log('close')
+    },
+  } = props
   const [countries, setCountries] = useCountriesState()
   const [states, setStates] = useStatesState()
   const [cities, setCities] = useCitiesState()
@@ -230,6 +240,7 @@ LocationForm.propTypes = {
     country: PropTypes.string,
   }),
   onAdd: PropTypes.func,
+  onClose: PropTypes.func,
 }
 
 export default LocationForm
