@@ -16,6 +16,7 @@ const Wrapper = styled.div`
   justify-content: center;
   height: 17em;
   padding-bottom: 1em;
+  outline: none;
   ${({ isDragging }) => (isDragging ? 'opacity: 0.5;' : '')}
 `
 
