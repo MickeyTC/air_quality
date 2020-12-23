@@ -1,0 +1,33 @@
+{
+  "files": {
+    "main.css": "/air_quality/static/css/main.6dea0f05.chunk.css",
+    "main.js": "/air_quality/static/js/main.facd8caf.chunk.js",
+    "main.js.map": "/air_quality/static/js/main.facd8caf.chunk.js.map",
+    "runtime-main.js": "/air_quality/static/js/runtime-main.d24816ff.js",
+    "runtime-main.js.map": "/air_quality/static/js/runtime-main.d24816ff.js.map",
+    "static/js/2.2e0c3878.chunk.js": "/air_quality/static/js/2.2e0c3878.chunk.js",
+    "static/js/2.2e0c3878.chunk.js.map": "/air_quality/static/js/2.2e0c3878.chunk.js.map",
+    "static/js/3.8736d616.chunk.js": "/air_quality/static/js/3.8736d616.chunk.js",
+    "static/js/3.8736d616.chunk.js.map": "/air_quality/static/js/3.8736d616.chunk.js.map",
+    "index.html": "/air_quality/index.html",
+    "static/css/main.6dea0f05.chunk.css.map": "/air_quality/static/css/main.6dea0f05.chunk.css.map",
+    "static/js/2.2e0c3878.chunk.js.LICENSE.txt": "/air_quality/static/js/2.2e0c3878.chunk.js.LICENSE.txt",
+    "static/media/add.c235419e.svg": "/air_quality/static/media/add.c235419e.svg",
+    "static/media/delete.7053c604.svg": "/air_quality/static/media/delete.7053c604.svg",
+    "static/media/humidity.47ec3db9.svg": "/air_quality/static/media/humidity.47ec3db9.svg",
+    "static/media/ic-face-green.0d991722.svg": "/air_quality/static/media/ic-face-green.0d991722.svg",
+    "static/media/ic-face-maroon.53b47c0f.svg": "/air_quality/static/media/ic-face-maroon.53b47c0f.svg",
+    "static/media/ic-face-orange.ced8dbd8.svg": "/air_quality/static/media/ic-face-orange.ced8dbd8.svg",
+    "static/media/ic-face-purple.5fa45d80.svg": "/air_quality/static/media/ic-face-purple.5fa45d80.svg",
+    "static/media/ic-face-red.d9b273d2.svg": "/air_quality/static/media/ic-face-red.d9b273d2.svg",
+    "static/media/ic-face-yellow.5d32eb54.svg": "/air_quality/static/media/ic-face-yellow.5d32eb54.svg",
+    "static/media/logo.6ce24c58.svg": "/air_quality/static/media/logo.6ce24c58.svg",
+    "static/media/wind_direction.f185ca8b.svg": "/air_quality/static/media/wind_direction.f185ca8b.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.d24816ff.js",
+    "static/js/2.2e0c3878.chunk.js",
+    "static/css/main.6dea0f05.chunk.css",
+    "static/js/main.facd8caf.chunk.js"
+  ]
+}
