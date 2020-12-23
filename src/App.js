@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useState } from 'react'
-import { DragDropContext } from 'react-beautiful-dnd'
+import { useEffect, useState } from 'react'
+import { DragDropContext, Droppable } from 'react-beautiful-dnd'
 import styled from 'styled-components'
 import createPersistedState from 'use-persisted-state'
 import ReactModal from 'react-modal'
@@ -7,7 +7,7 @@ import Loading from './Loading'
 import LocationForm from './LocationForm'
 import LocationList from './LocationList'
 import { getAqiCity, getNearData, refreshData } from './utils'
-import { addIcon } from './assets'
+import { addIcon, deleteIcon } from './assets'
 
 const useLocationsState = createPersistedState('locations')
 
@@ -58,7 +58,35 @@ const StyledModal = styled(ReactModalAdapter)`
   }
 `
 
+const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 60vw;
+  min-width: 400px;
+  max-width: 650px;
+  height: 17em;
+  border-radius: 10px;
+  transition: background-color 50ms ease-in, border 50ms ease-in;
+  ${({ isDraggingOver, isDragging }) =>
+    isDragging
+      ? isDraggingOver
+        ? `
+      background-color: #ff00004d;
+      border: 1px solid #ff0000;`
+        : `
+      background-color: #ff000012;
+      border: 1px solid #ff0000c7;`
+      : `
+    &:hover {
+      background-color: #8bfffd2b;
+    }
+    background-color: #8bfffd12;
+    border: 1px solid #fffff55c;`}
+`
+
 const AddButton = styled.div`
+  position: absolute;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -68,7 +96,6 @@ const AddButton = styled.div`
   outline: 0;
   transition: ease background-color 250ms;
   border: 0;
-  margin: 1.5em;
   ${({ disabled }) =>
     disabled
       ? `
@@ -100,10 +127,17 @@ const AddIcon = styled.img`
   opacity: 0.8;
 `
 
+const DeleteIcon = styled.img`
+  position: absolute;
+  width: 8em;
+  height: 8em;
+`
+
 const App = () => {
   const [locations, setLocations] = useLocationsState([])
   const [loading, setLoading] = useState(false)
   const [isShowForm, setIsShowForm] = useState(false)
+  const [isDragging, setDragging] = useState(false)
 
   useEffect(() => {
     ;(async () => {
@@ -119,21 +153,31 @@ const App = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const onDragEnd = useCallback(
-    result => {
-      const { source, destination } = result
-      const sIndex = source?.index
-      const dIndex = destination?.index
-      if (!destination || sIndex === dIndex) return
+  const onDragEnd = result => {
+    setDragging(false)
+    const { source, destination } = result || {}
+    if (!destination || !source) return
+    const { index: sIndex, droppableId: sId } = source
+    const { index: dIndex, droppableId: dId } = destination
+    if (sId === 'locations' && dId === 'delete') {
+      setLocations(locations => [
+        ...locations.slice(0, sIndex),
+        ...locations.slice(sIndex + 1),
+      ])
+    } else if (sId === 'locations' && dId === 'locations') {
+      if (sIndex === dIndex) return
       setLocations(locations => {
         const newLocations = [...locations]
         const [sItem] = newLocations.splice(sIndex, 1)
         newLocations.splice(dIndex, 0, sItem)
         return newLocations
       })
-    },
-    [setLocations]
-  )
+    }
+  }
+
+  const onBeforeDragStart = () => {
+    setDragging(true)
+  }
 
   const onClickAdd = () => {
     setIsShowForm(true)
@@ -168,9 +212,6 @@ const App = () => {
   return (
     <Container>
       {loading && <Loading />}
-      <DragDropContext onDragEnd={onDragEnd}>
-        <LocationList locations={locations} listId='locations' />
-      </DragDropContext>
       <StyledModal
         isOpen={isShowForm}
         onRequestClose={hideForm}
@@ -179,9 +220,31 @@ const App = () => {
       >
         <LocationForm initialLocation={locations[0]} onAdd={onAddLocation} />
       </StyledModal>
-      <AddButton onClick={onClickAdd}>
-        <AddIcon src={addIcon} alt='add' />
-      </AddButton>
+      <DragDropContext
+        onDragEnd={onDragEnd}
+        onBeforeDragStart={onBeforeDragStart}
+      >
+        <LocationList locations={locations} droppableId='locations' />
+        <Droppable droppableId='delete'>
+          {(provided, { isDraggingOver }) => (
+            <ButtonWrapper
+              ref={provided.innerRef}
+              {...provided.droppableProps}
+              isDragging={isDragging}
+              isDraggingOver={isDraggingOver}
+            >
+              {isDragging ? (
+                <DeleteIcon src={deleteIcon} alt='delete' />
+              ) : (
+                <AddButton onClick={onClickAdd}>
+                  <AddIcon src={addIcon} alt='add' />
+                </AddButton>
+              )}
+              {provided.placeholder}
+            </ButtonWrapper>
+          )}
+        </Droppable>
+      </DragDropContext>
     </Container>
   )
 }

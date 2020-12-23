@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import Select from 'react-select'
 import styled from 'styled-components'
@@ -147,46 +147,31 @@ const LocationForm = props => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedState])
 
-  const onSelectCountry = useCallback(
-    option => {
-      if (option.value === selectedCountry) return
-      setSelectedCountry(option.value)
-      setSelectedState('')
-      setSelectedCity('')
-      setIsShowError(false)
-    },
-    [selectedCountry, setSelectedCountry, setSelectedState, setSelectedCity]
-  )
+  const onSelectCountry = option => {
+    if (option.value === selectedCountry) return
+    setSelectedCountry(option.value)
+    setSelectedState('')
+    setSelectedCity('')
+    setIsShowError(false)
+  }
 
-  const onSelectState = useCallback(
-    option => {
-      if (option.value === selectedState) return
-      setSelectedState(option.value)
-      setSelectedCity('')
-      setIsShowError(false)
-    },
-    [selectedState, setSelectedState, setSelectedCity]
-  )
+  const onSelectState = option => {
+    if (option.value === selectedState) return
+    setSelectedState(option.value)
+    setSelectedCity('')
+    setIsShowError(false)
+  }
 
-  const onSelectCity = useCallback(
-    option => {
-      if (option.value === selectedCity) return
-      setSelectedCity(option.value)
-      setIsShowError(false)
-    },
-    [selectedCity, setSelectedCity]
-  )
+  const onSelectCity = option => {
+    if (option.value === selectedCity) return
+    setSelectedCity(option.value)
+    setIsShowError(false)
+  }
 
-  const countriesOptions = useMemo(() => convertToSelectOptions(countries), [
-    countries,
-  ])
-  const statesOptions = useMemo(
-    () => convertToSelectOptions(states?.[selectedCountry]),
-    [states, selectedCountry]
-  )
-  const citiesOptions = useMemo(
-    () => convertToSelectOptions(cities?.[selectedCountry]?.[selectedState]),
-    [cities, selectedCountry, selectedState]
+  const countriesOptions = convertToSelectOptions(countries)
+  const statesOptions = convertToSelectOptions(states?.[selectedCountry])
+  const citiesOptions = convertToSelectOptions(
+    cities?.[selectedCountry]?.[selectedState]
   )
 
   const onDuplicate = () => {

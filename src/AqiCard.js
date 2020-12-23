@@ -58,9 +58,6 @@ const Container = styled.div`
   flex-direction: column;
   text-align: center;
   color: #333333;
-  width: 60vw;
-  min-width: 400px;
-  max-width: 650px;
   border-radius: 10px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 `
@@ -98,6 +95,7 @@ const StateInfo = styled(Info)`
 const PollutionBox = styled(Box)(({ color, background }) => ({
   color,
   backgroundColor: background || 'rgb(255, 255, 245)',
+  height: '4.5em',
 }))
 
 const FaceAqi = styled.img`

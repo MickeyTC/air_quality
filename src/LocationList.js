@@ -3,24 +3,34 @@ import { Draggable, Droppable } from 'react-beautiful-dnd'
 import styled from 'styled-components'
 import AqiCard from './AqiCard'
 
+const Container = styled.div`
+  width: 60vw;
+  min-width: 400px;
+  max-width: 650px;
+`
+
 const Wrapper = styled.div`
-  padding: 0.5em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 17em;
+  padding-bottom: 1em;
 `
 
 const LocationList = props => {
-  const { locations = [], listId } = props
+  const { locations = [], droppableId } = props
 
   return (
-    <Droppable droppableId={listId}>
+    <Droppable droppableId={droppableId}>
       {provided => (
-        <div ref={provided.innerRef} {...provided.droppableProps}>
+        <Container ref={provided.innerRef} {...provided.droppableProps}>
           {locations.map((location, index) => (
             <Draggable
               draggableId={`${location?.city}-${location?.state}-${location?.country}`}
               key={`${location?.city}-${location?.state}-${location?.country}`}
               index={index}
             >
-              {provided => (
+              {(provided, snapshot) => (
                 <Wrapper
                   {...provided.draggableProps}
                   {...provided.dragHandleProps}
@@ -32,7 +42,7 @@ const LocationList = props => {
             </Draggable>
           ))}
           {provided.placeholder}
-        </div>
+        </Container>
       )}
     </Droppable>
   )
@@ -46,7 +56,7 @@ LocationList.propTypes = {
       country: PropTypes.string,
     })
   ),
-  listId: PropTypes.string.isRequired,
+  droppableId: PropTypes.string.isRequired,
 }
 
 export default LocationList
