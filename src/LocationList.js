@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types'
+import { memo } from 'react'
 import { Draggable, Droppable } from 'react-beautiful-dnd'
 import styled from 'styled-components'
 import AqiCard from './AqiCard'
@@ -15,6 +16,7 @@ const Wrapper = styled.div`
   justify-content: center;
   height: 17em;
   padding-bottom: 1em;
+  ${({ isDragging }) => (isDragging ? 'opacity: 0.5;' : '')}
 `
 
 const LocationList = props => {
@@ -35,6 +37,7 @@ const LocationList = props => {
                   {...provided.draggableProps}
                   {...provided.dragHandleProps}
                   ref={provided.innerRef}
+                  isDragging={snapshot.isDragging}
                 >
                   <AqiCard data={location} />
                 </Wrapper>
@@ -59,4 +62,4 @@ LocationList.propTypes = {
   droppableId: PropTypes.string.isRequired,
 }
 
-export default LocationList
+export default memo(LocationList)

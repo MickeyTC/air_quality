@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { memo, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import Select from 'react-select'
 import styled from 'styled-components'
@@ -263,4 +263,4 @@ LocationForm.propTypes = {
   onAdd: PropTypes.func,
 }
 
-export default LocationForm
+export default memo(LocationForm)

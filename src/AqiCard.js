@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types'
+import { memo } from 'react'
 import styled from 'styled-components'
 import {
   faceGreen,
@@ -233,4 +234,4 @@ AqiCard.propTypes = {
   useUSAqi: PropTypes.bool,
 }
 
-export default AqiCard
+export default memo(AqiCard)
