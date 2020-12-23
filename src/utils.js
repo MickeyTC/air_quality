@@ -24,19 +24,16 @@ const getNearData = async () => {
 
 const refreshData = async locations => {
   try {
-    // const res = await Promise.allSettled(
-    //   locations.map(({ city, state, country }) =>
-    //     axios.get(
-    //       `https://api.airvisual.com/v2/city?city=${city}&state=${state}&country=${country}&key=${KEY}`
-    //     )
-    //   )
-    // )
-    // return res.map(({ status, value }, i) =>
-    //   status === 'fulfilled' ? value?.data?.data : locations[i]
-    // )
-    return new Promise((res, rej) => {
-      setTimeout(res, 500, locations)
-    })
+    const res = await Promise.allSettled(
+      locations.map(({ city, state, country }) =>
+        axios.get(
+          `https://api.airvisual.com/v2/city?city=${city}&state=${state}&country=${country}&key=${KEY}`
+        )
+      )
+    )
+    return res.map(({ status, value }, i) =>
+      status === 'fulfilled' ? value?.data?.data : locations[i]
+    )
   } catch (e) {
     console.error(e)
   }
