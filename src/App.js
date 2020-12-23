@@ -58,7 +58,7 @@ const StyledModal = styled(ReactModalAdapter)`
   }
 `
 
-const ButtonWrapper = styled.div`
+const Wrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -68,21 +68,35 @@ const ButtonWrapper = styled.div`
   height: 17em;
   border-radius: 10px;
   transition: background-color 50ms ease-in, border 50ms ease-in;
-  ${({ isDraggingOver, isDragging }) =>
-    isDragging
-      ? isDraggingOver
-        ? `
-      background-color: #ff00004d;
-      border: 1px solid #ff0000;`
-        : `
-      background-color: #ff000012;
-      border: 1px solid #ff0000c7;`
-      : `
-    &:hover {
-      background-color: #8bfffd2b;
+`
+
+const DeleteWrapper = styled(Wrapper)`
+  ${({ isDragging, isDraggingOver, isLimit }) => {
+    if (isDraggingOver) {
+      return `
+        background-color: #ff00004d;
+        border: 1px solid #ff0000;
+      `
     }
-    background-color: #8bfffd12;
-    border: 1px solid #fffff55c;`}
+    if (isLimit && !isDragging) {
+      return `
+        background-color: transparent;
+        border: 1px solid #ff0000;
+      `
+    }
+    return `
+      background-color: #ff000012;
+      border: 1px solid #ff0000c7;
+    `
+  }}}
+`
+
+const AddWrapper = styled(Wrapper)`
+  &:hover {
+    background-color: #8bfffd2b;
+  }
+  background-color: #8bfffd12;
+  border: 1px solid #fffff55c;
 `
 
 const AddButton = styled.div`
@@ -227,21 +241,25 @@ const App = () => {
         <LocationList locations={locations} droppableId='locations' />
         <Droppable droppableId='delete'>
           {(provided, { isDraggingOver }) => (
-            <ButtonWrapper
-              ref={provided.innerRef}
-              {...provided.droppableProps}
-              isDragging={isDragging}
-              isDraggingOver={isDraggingOver}
-            >
-              {isDragging ? (
-                <DeleteIcon src={deleteIcon} alt='delete' />
+            <div ref={provided.innerRef} {...provided.droppableProps}>
+              {isDragging || locations.length >= 5 ? (
+                <DeleteWrapper
+                  isDraggingOver={isDraggingOver}
+                  isDragging={isDragging}
+                  isLimit={locations.length >= 5}
+                >
+                  <DeleteIcon src={deleteIcon} alt='delete' />
+                  {provided.placeholder}
+                </DeleteWrapper>
               ) : (
-                <AddButton onClick={onClickAdd}>
-                  <AddIcon src={addIcon} alt='add' />
-                </AddButton>
+                <AddWrapper>
+                  <AddButton onClick={onClickAdd}>
+                    <AddIcon src={addIcon} alt='add' />
+                  </AddButton>
+                  {provided.placeholder}
+                </AddWrapper>
               )}
-              {provided.placeholder}
-            </ButtonWrapper>
+            </div>
           )}
         </Droppable>
       </DragDropContext>
