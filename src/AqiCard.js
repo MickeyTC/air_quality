@@ -8,6 +8,7 @@ import {
   facePurple,
   faceRed,
   faceYellow,
+  getWeatherIcon,
   humidity,
   windDirection,
 } from './assets'
@@ -183,12 +184,7 @@ const AqiCard = props => {
       </PollutionBox>
       <WeatherBox>
         <Info>
-          {!!ic && (
-            <WeatherIcon
-              src={`https://www.airvisual.com/images/${ic}.png`}
-              alt={`icon-${ic}`}
-            />
-          )}
+          {!!ic && <WeatherIcon src={getWeatherIcon(ic)} alt={`icon-${ic}`} />}
           {tp !== undefined && <WeatherValue>{`${tp}°C`}</WeatherValue>}
         </Info>
         <Info>
